@@ -1,0 +1,10 @@
+#define VERSION "@PROJECT_VERSION@"
+#define O4S_VERSION @OPaL4cID_O4S_VERSION@
+
+#cmakedefine DEBUG
+
+#ifdef DEBUG
+#define BUILD_TYPE "dbg"
+#else
+#define BUILD_TYPE "rel"
+#endif
