@@ -41,8 +41,8 @@ if(DEBUG)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
 endif()
 
-add_executable("OPaL4cID_Tracker" ${SOURCES})
+add_executable("OPaL_Tracker" ${SOURCES})
 
-target_include_directories("OPaL4cID_Tracker" PUBLIC "${PROJECT_BINARY_DIR}")
+target_include_directories("OPaL_Tracker" PUBLIC "${PROJECT_BINARY_DIR}")
 
-target_link_libraries("OPaL4cID_Tracker" PUBLIC ${LIBS})
+target_link_libraries("OPaL_Tracker" PUBLIC ${LIBS})

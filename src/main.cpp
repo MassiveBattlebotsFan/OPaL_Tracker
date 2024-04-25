@@ -74,7 +74,7 @@ void TrackerList::HandleKeyPress(wxKeyEvent &evt){
 
 }
 
-MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, "OPaL4cID Tracker " + _(VERSION) + "-" + _(BUILD_TYPE)){
+MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, "OPaL Tracker " + _(VERSION) + "-" + _(BUILD_TYPE)){
     wxMenu* menuFile = new wxMenu;
     menuFile->Append(wxID_SAVE);
     menuFile->Append(wxID_EXIT);
