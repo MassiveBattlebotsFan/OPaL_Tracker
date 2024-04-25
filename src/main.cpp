@@ -77,7 +77,7 @@ void TrackerList::HandleKeyPress(wxKeyEvent &evt){
 MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, "OPaL Tracker " + _(VERSION) + "-" + _(BUILD_TYPE)){
     wxMenu* menuFile = new wxMenu;
     menuFile->Append(wxID_SAVE);
-    menuFile->Append(wxID_EXIT);
+    menuFile->Append(wxID_EXIT, "&Quit\tCtrl+Q");
     wxMenu* menuAbout = new wxMenu;
     menuAbout->Append(wxID_ABOUT);
     //wxMenu* menuEdit = new wxMenu;
@@ -88,7 +88,7 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, "OPaL Tracker " + _(VERSION) + 
     //menuBar->Append(menuEdit, "&Edit");
     menuBar->Append(menuAbout, "&About");
 
-    Bind(wxEVT_MENU, [&](wxCommandEvent&){ Close(true); }, wxID_EXIT);
+    Bind(wxEVT_MENU, [&](wxCommandEvent&){ if(wxMessageBox("Are you sure you want to quit? All unsaved edits will be lost.", "Confirm exit", wxYES_NO, this) == wxYES) Close(true); }, wxID_EXIT);
 
     SetMenuBar(menuBar);
 
