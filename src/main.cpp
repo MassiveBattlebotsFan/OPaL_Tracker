@@ -1,10 +1,15 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <string>
 #include <wx/wx.h>
 #include <wx/editlbox.h>
+#include <wx/listctrl.h>
 
 #include "config.hpp"
+
+const wxColour BACKGROUND_COLOR(20, 20, 20);
+const wxColour FOREGROUND_COLOR(240, 240, 240);
 
 class OPaL4cIDTrackerApp : public wxApp {
     public:
@@ -16,9 +21,18 @@ class MainFrame : public wxFrame{
         MainFrame();
 };
 
-class TrackerList : public wxListBox {
+class TrackerList : public wxListCtrl {
     public:
         TrackerList(wxWindow *parent, wxWindowID ID);
+
+    private:
+        size_t cursor = 0;
+        size_t commandColumn;
+        size_t argumentColumn;
+
+        void HandleKeyPress(wxKeyEvent &evt);
+
+        wxDECLARE_EVENT_TABLE();
 };
 
 class MainPanel : public wxPanel{
@@ -30,10 +44,34 @@ enum {
   
 };
 
-TrackerList::TrackerList(wxWindow *parent, wxWindowID ID) : wxListBox(parent, ID){
-    this->Append("Test 1");
-    this->Append("Test 2");
-    this->Append("Test 3");
+TrackerList::TrackerList(wxWindow *parent, wxWindowID ID) : wxListCtrl(parent, ID, wxDefaultPosition, wxDefaultSize, wxLC_REPORT|wxBORDER_SIMPLE){
+
+    this->commandColumn = this->AppendColumn("Command");
+    this->argumentColumn = this->AppendColumn("Argument");
+
+    for (int i = 0; i < 10; ++i){
+        wxListItem item;
+        long itemCount = this->GetItemCount();
+
+        item.SetId(itemCount);
+        item.SetText("Test");
+        
+        this->InsertItem(item);
+        this->SetItem(i, this->commandColumn, "Test entry");
+        this->SetItem(i, this->argumentColumn, std::to_string(i));
+    }
+
+    this->SetBackgroundColour(BACKGROUND_COLOR);
+    this->SetForegroundColour(FOREGROUND_COLOR);
+
+    this->Update();
+}
+
+wxBEGIN_EVENT_TABLE(TrackerList, wxListCtrl)
+wxEND_EVENT_TABLE()
+
+void TrackerList::HandleKeyPress(wxKeyEvent &evt){
+
 }
 
 MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, "OPaL4cID Tracker " + _(VERSION) + "-" + _(BUILD_TYPE)){
@@ -56,7 +94,7 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, "OPaL4cID Tracker " + _(VERSION
 
     MainPanel* mainPanel = new MainPanel(this);
 
-    SetInitialSize(wxSize(1280,768));
+    SetInitialSize(wxSize(800,600));
 }
 
 MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent, wxID_ANY){
@@ -98,7 +136,10 @@ MainPanel::MainPanel(wxWindow *parent) : wxPanel(parent, wxID_ANY){
     left_sizer->Add(pattern_menu_sizer, wxSizerFlags().Top().Expand());
     left_sizer->Add(patternListCmds, wxSizerFlags(1).Top().Expand());
 
-    pattern_menu_sizer->Add(new wxButton(this, wxID_ANY, "Test 1"), wxSizerFlags(1).Expand());
+    this->SetBackgroundColour(BACKGROUND_COLOR);
+    this->SetForegroundColour(FOREGROUND_COLOR);
+
+    this->Update();
 
     SetSizerAndFit(main_sizer);
 }
