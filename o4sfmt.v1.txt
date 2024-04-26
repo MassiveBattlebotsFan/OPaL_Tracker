@@ -1,0 +1,65 @@
+OPL4SID O4S file definition
+By 0x30507DE, 2024
+0x30507de.xyz
+ 
+File header:
+.byte 79,52,83     String "o4s", used to identify file
+.byte 1            Version code (currently v1)
+.byte              SID mode
+.byte              Reserved
+.word              Total pattern length
+.word              Total sequence length
+.word              Reserved
+ 
+Instrument format:
+.word              V1 frequency
+.word              V1 pulse width
+.byte              V1 control
+.byte              V1 ADSR attack/decay
+.byte              V1 ADSR sustain/release
+...                Repeat above for voice 2 and 3
+.word              Filter cutoff frequency
+.byte              Filter control 1 (resonance/output)
+.byte              Filter control 2 (mode/volume)
+ 
+Sequence header:
+.word              Sequence length
+ 
+Sequence format:
+.byte              Pattern step delay ($FF to end sequence)
+.byte              SID pattern
+.byte              SID instrument
+...                Repeat
+ 
+Pattern header:
+.word              Pattern length
+ 
+Pattern format:
+.byte              Command ($00 terminates tick, $FF terminates pattern)
+.byte              Argument if applicable
+...                Repeat until end of pattern cmd
+ 
+Pattern commands (x > 0, *=1 byte):
+$00 * End tick
+$x0 * Clear voice x gate
+$x1 * Set voice x gate
+$02 - Set filter FRQLO
+$x2 - Set voice x FRQLO
+$03 - Set filter FRQHI
+$x3 - Set voice x FRQHI
+$04 - Set filter CTRL1
+$x4 - Set voice x PWMLO
+$05 - Set filter CTRL2
+$x5 - Set voice x PWMHI
+$06 - Delay x ticks
+$x6 - Set voice x CNTRL
+$x7 - Set voice x att/dec
+$x8 - Set voice x sus/rel
+$09 - Add to filter FRQ
+$x9 - Add to voice x FRQ
+$0A - Sub from filter FRQ
+$xA - Sub from voice x FRQ
+$xB - Add to voice x PWM
+$xC - Sub from voice x PWM
+$xD * Shift voice x FRQ left
+$xE * Shift voice x FRQ right

@@ -5,7 +5,7 @@ project(OPaL4cIDTracker VERSION 0.0.1)
 option(DEBUG "Build with debug messages" on)
 option(STATIC "Build static executable" off)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(PROJECT_SOURCE_DIR "src")
 set(PROJECT_HEADER_DIR "${PROJECT_SOURCE_DIR}/headers")
@@ -43,6 +43,6 @@ endif()
 
 add_executable("OPaL_Tracker" ${SOURCES})
 
-target_include_directories("OPaL_Tracker" PUBLIC "${PROJECT_BINARY_DIR}")
+target_include_directories("OPaL_Tracker" PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_HEADER_DIR}")
 
 target_link_libraries("OPaL_Tracker" PUBLIC ${LIBS})
